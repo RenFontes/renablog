@@ -1,0 +1,22 @@
+{
+  "name": "renablog",
+  "version": "0.0.1",
+  "description": "blog by me",
+  "private": true,
+  "main": "web.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "bcrypt-nodejs": "*",
+    "diskdb": "^0.1.17",
+    "express": "3.4.0",
+    "guid": "0.0.12",
+    "jade": "*",
+    "markdown": "*",
+    "stylus": "*"
+  },
+  "engines": {
+    "node": "0.10.x"
+  }
+}
