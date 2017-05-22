@@ -28,6 +28,7 @@ A lot has changed in those 3 years, though. So I plan to keep updating it and ma
 
 Some of the plans I have right now:
 
+* Use pug instead of jade.
 * Migrate this to the newest express version.
 * Use vuejs for javascript parts.
 * Add pagination
