@@ -38,5 +38,6 @@ Some of the plans I have right now:
 ### Who do I talk to? ###
 
 My name is Renato Fontes, and you can find me on twitter [@RenatoFontes](https://twitter.com/renatofontes).
+You can also visit my site here: [elrenato.com](http://elrenato.com)
 
 I twit mostly in spanish, but I can reply to you in english. I tend to rant there when new technology is released that I don't like, or when something I like doesn't work as expected... So, sorry about that. :)
