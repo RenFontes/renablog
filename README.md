@@ -37,12 +37,12 @@ A lot has changed in those 3 years, though. So I plan to keep updating it and ma
 
 Some of the plans I have right now:
 
-[ ] Add option for uploading images. 
-[ ] Improve pagination (show pages buttons)
-[ ] Split json files used for posts.
-[ ] Re-organize project. (Since backend and frontend are mixed, some things are all over the place.
-[ ] Easy theming? Maybe?
-[ ] Find prettier background images. 
+- [ ] Add option for uploading images. 
+- [ ] Improve pagination (show pages buttons)
+- [ ] Split json files used for posts.
+- [ ] Re-organize project. (Since backend and frontend are mixed, some things are all over the place.
+- [ ] Easy theming? Maybe?
+- [ ] Find prettier background images. 
 
 ### Who do I talk to? ###
 
