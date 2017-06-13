@@ -1,68 +1,96 @@
-
-/**
- * Module dependencies.
- */
-
 var express = require('express');
-var http = require('http');
 var path = require('path');
-var guid = require('guid');
+var favicon = require('serve-favicon');
+var logger = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+var sassMiddleware = require('node-sass-middleware');
 var diskdb = require('diskdb');
+var pug = require('pug');
+//webpack
+var webpack = require('webpack');
+var webpackConfig = require('./build/webpack.dev.conf')
+//require routes
+var posts = require('./api-controllers/posts-controller');
 
 var app = express();
-var blogDb = diskdb.connect('./localdb',['posts']);
+var blogDb = diskdb.connect('./localdb', ['posts']);
 
-// all environments
-app.set('port', process.env.PORT || 3000);
-app.set('views', __dirname + '/views');
-app.set('view engine', 'jade');
-app.use(express.favicon());
-app.use(express.logger('dev'));
-app.use(express.bodyParser());
-app.use(express.methodOverride());
-
-app.use(app.router);
-app.use(require('stylus').middleware(__dirname + '/public'));
-app.use(express.static(path.join(__dirname, 'public')));
-
-// development only
-if ('development' == app.get('env')) {
-  app.use(express.errorHandler());
+//load index route for prod
+if (app.get('env') === 'production') {
+    console.log('Prod route '+__dirname + '/dist/index.html');
+    app.get('/', function (req, res) {
+        res.sendFile(__dirname + '/dist/index.html');
+    })
 }
 
-//main page, get all posts
-var title = 'ADD YOUR BLOG TITLE IN HERE.'
-app.get('/', function(req, res){
-  var posts = blogDb.posts.find();
-  res.render('index',{title: title,blogPosts:posts});
+//webpack stuff
+if (app.get('env') === 'development') {
+    var compiler = webpack(webpackConfig);
+    var devMiddleware = require('webpack-dev-middleware')(compiler, {
+        publicPath: webpackConfig.output.publicPath,
+        quiet: true
+    });
+    var hotMiddleware = require('webpack-hot-middleware')(compiler, {
+        log: () => { }
+    });
+    // force page reload when html-webpack-plugin template changes
+    compiler.plugin('compilation', function (compilation) {
+        compilation.plugin('html-webpack-plugin-after-emit', function (data, cb) {
+            hotMiddleware.publish({ action: 'reload' });
+            cb();
+        });
+    });
+
+    // serve webpack bundle output
+    app.use(devMiddleware)
+    // enable hot-reload and state-preserving
+    // compilation error display
+    app.use(hotMiddleware)
+}
+
+// handle fallback for HTML5 history API
+app.use(require('connect-history-api-fallback')());
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'pug');
+
+// uncomment after placing your favicon in /public
+//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(logger('dev'));
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+
+app.use(cookieParser());
+app.use(sassMiddleware({
+    src: path.join(__dirname, 'public'),
+    dest: path.join(__dirname, 'public'),
+    indentedSyntax: true, // true = .sass and false = .scss
+    sourceMap: true
+}));
+
+
+app.use(express.static(path.join(__dirname, 'public')));
+//load api routes
+app.use('/posts', posts(blogDb));
+
+// catch 404 and forward to error handler
+app.use(function (req, res, next) {
+    var err = new Error('Not Found');
+    err.status = 404;
+    next(err);
 });
 
-//Comment both app.get('/newpost' and app.post('/newpost', if you are putting this online.
-//I normally update locally and then commit and push the changes to my server.
-app.get('/newpost', function(req, res){
-  res.render('newPost');
+// error handler
+app.use(function (err, req, res, next) {
+    // set locals, only providing error in development
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+    // render the error page
+    res.status(err.status || 500);
+    res.render('error');
 });
 
-
-//save new post
-app.post('/newpost', function(req, res){
-  var post = {id:guid.raw(), title: req.param('title'), text: req.param('postText'), created_at: new Date()};
-  blogDb.posts.save(post);
-  res.redirect('/');
-});
-
-
-http.createServer(app).listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
-});
-
-
-
-
-/*var bp1 = new BlogPost({title: 'titulo', text: '<p>some text</p>', created_at: new Date()});
-bp1.save(function(err, blogpost){
-  if (err) return console.error(err);
-  else console.log('success');
-});
-*/
-
+module.exports = app;

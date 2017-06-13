@@ -1,0 +1,83 @@
+@charset "utf-8";
+
+@import "node_modules/bulma/sass/utilities/_all";
+@import "node_modules/bulma/sass/base/_all";
+@import "node_modules/bulma/sass/elements/_all";
+@import "node_modules/bulma/sass/components/_all";
+@import "node_modules/bulma/sass/grid/_all";
+@import "node_modules/bulma/sass/layout/_all";
+
+body 
+  color: $text
+  font-size: 1rem
+  font-weight: $weight-normal
+  line-height: 1.5
+
+.post
+  margin-bottom: 30px
+  margin-right: 5%
+
+.no-style
+  list-style-type: none !important
+  margin-left: 0 !important
+
+.inputfile 
+  width: 0.1px
+  height: 0.1px
+  opacity: 0
+  overflow: hidden
+  position: absolute
+  z-index: -1
+
+.content.about
+  +desktop
+    width: 80%
+
+.content
+  +touch
+    margin-left: 5%
+    margin-right: 5%
+
+.pagination
+  +touch
+    margin-left: 5%
+    margin-right: 5%
+
+.blog-menu
+  background-color: gray 
+  background-repeat: repeat
+
+  +mobile
+    background-position-y: 12px    
+  +tablet
+    margin: 0px
+    position: fixed
+    top: 0
+    bottom: 0
+    padding: 30px
+    background-position-x: 20%
+  +tablet-only
+    background-position-y: 12px
+  
+
+
+
+.blog-menu-color
+  color: white !important
+  &:hover
+    color: $primary !important
+
+.blog-menu-color:hover
+  color
+
+.blog-title
+  text-shadow: 1px 2px 1px #000
+
+.main
+  padding-top: 30px
+  +tablet
+    margin-left: 20%  
+  +desktop
+    margin-left: 20%
+
+

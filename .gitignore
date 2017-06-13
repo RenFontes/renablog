@@ -1,2 +1,7 @@
+.DS_Store
 node_modules/
-.ntvs_analysis.dat
+dist/
+public/static/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
