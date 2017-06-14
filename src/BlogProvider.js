@@ -33,6 +33,7 @@ export const BlogProvider = new Vue({
                     this.$emit('savePost', response.body);
                 }
                 );
+            this.posts = [];
         },
         updatePost(post) {
             var self = this;
@@ -45,10 +46,12 @@ export const BlogProvider = new Vue({
                     this.$emit('updatePost', response.body);
                 }
                 );
+            this.posts = [];
         },
         deletePost(id) {
             this.$http.delete(`/posts?id=${id}`).then(response => {
                 this.$emit('deletePost', response.body);
+                this.posts = [];
                 this.loadPage(this.currentPage);
                 this.$router.push('/');
             });
