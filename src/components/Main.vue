@@ -3,7 +3,7 @@ div#main
   .posts.content
     section.post(v-for="post in posts")
       post(v-bind:post-prop="post")
-    section.post(v-if="posts.length === 0")
+    section.post(v-if="componentLoaded && posts.length === 0")
       div Woops! There are no more posts!
   nav(class="pagination is-right")
     a(class="pagination-previous" v-if="currentPage > 1" v-on:click="previousPage") Previous Page

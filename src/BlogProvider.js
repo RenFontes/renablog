@@ -6,6 +6,11 @@ export const BlogProvider = new Vue({
     },
     methods: {
         loadPage(page) {
+            if(this.currentPage === page && this.posts.length > 0){
+                this.$emit('loadPage', this.posts);
+                return;                
+            }
+
             this.currentPage = page;
             this.$http.get(`/posts?page=${page}`).then(response => {
                 this.posts = response.body;
